@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "NormalWindow.h"
-
+#include "ControlBase.h"
 void NormalWindow::OnDraw(HDC dc)
 {
 	//child_controls

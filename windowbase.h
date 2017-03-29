@@ -4,9 +4,9 @@
 #ifndef WINDOWBASE
 #define WINDOWBASE
 using namespace std;
-#include "ControlBase.h"
+
 //#include "DXEngine.h"
-//class ControlBase;
+class ControlBase;
 
 class WindowBase
 {

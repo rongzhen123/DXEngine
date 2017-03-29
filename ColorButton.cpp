@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "ColorButton.h"
-
+#include "DXEngine.h"
 ColorButton::ColorButton()
 	:ControlBase()
 {
@@ -93,7 +93,7 @@ int CreatePlaneButton::event(int eventtype, int x, int y)
 			if (x >= this->x + 5 && x <= this->x + this->width && y >= this->y + scrool_pos && y <= this->y + this->height + scrool_pos)
 			{
 				AfxMessageBox(L"CreatePlaneButton up");
-				((DXEngine*)(userdata))->;
+				((DXEngine*)(userdata));
 				return 1;
 			}
 		}

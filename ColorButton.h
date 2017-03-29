@@ -2,10 +2,7 @@
 #include "stdafx.h"
 #ifndef COLORBUTTON
 #define COLORBUTTON
-//#include "DXEngine.h"
-
 #include "ControlBase.h"
-
 class DXEngine;
 class ColorButton : public ControlBase
 {
