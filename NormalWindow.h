@@ -1,7 +1,10 @@
 #pragma once
 #include "stdafx.h"
-#include "windowbase.h"
+#ifndef NORMALWINDOW
+#define NORMALWINDOW
 
+#include "windowbase.h"
+//class WindowBase;
 class NormalWindow : public WindowBase
 {
 	 void OnDraw(HDC dc);
@@ -10,3 +13,4 @@ class NormalWindow : public WindowBase
 	// void OnRButtonDown(int x, int y);
 	// void OnRButtonUp(int x, int y);
 };
+#endif

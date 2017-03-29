@@ -1,11 +1,12 @@
 #pragma once
 #include "stdafx.h"
-#include "windowbase.h"
+
 //
 
 #ifndef WINDOWMANAGER
 #define WINDOWMANAGER
-
+class WindowBase;
+#include "windowbase.h"
 using namespace std;
 
 LRESULT CALLBACK WindowManagerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

@@ -1,6 +1,12 @@
 #include "StdAfx.h"
 #include "ColorButton.h"
 
+ColorButton::ColorButton()
+	:ControlBase()
+{
+	color = RGB(255,0,0);
+}
+
 int ColorButton::draw(HDC hdc)
 {
 	if (this->hide == FALSE)
@@ -69,6 +75,94 @@ int ColorButton::event(int eventtype, int x, int y)
 	else
 	{
 		return 0;
+	}
+	return 0;
+}
+
+CreatePlaneButton::CreatePlaneButton():ColorButton()
+{
+
+}
+
+int CreatePlaneButton::event(int eventtype, int x, int y)
+{
+	if (eventtype == EVENT_LBUTTON_UP)
+	{
+		if (this->enabled == TRUE)
+		{
+			if (x >= this->x + 5 && x <= this->x + this->width && y >= this->y + scrool_pos && y <= this->y + this->height + scrool_pos)
+			{
+				AfxMessageBox(L"CreatePlaneButton up");
+				((DXEngine*)(userdata))->;
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+CreateBoxButton::CreateBoxButton()
+{
+
+}
+
+int CreateBoxButton::event(int eventtype, int x, int y)
+{
+	if (eventtype == EVENT_LBUTTON_UP)
+	{
+		if (this->enabled == TRUE)
+		{
+			if (x >= this->x + 5 && x <= this->x + this->width && y >= this->y + scrool_pos && y <= this->y + this->height + scrool_pos)
+			{
+				AfxMessageBox(L"CreateBoxButton up");
+				return 1;
+			}
+		}
+	}
+	//AfxMessageBox(L"CreateBoxButton");
+	return 0;
+}
+
+CreateSphereButton::CreateSphereButton()
+{
+
+}
+
+int CreateSphereButton::event(int eventtype, int x, int y)
+{
+	if (eventtype == EVENT_LBUTTON_UP)
+	{
+		if (this->enabled == TRUE)
+		{
+			if (x >= this->x + 5 && x <= this->x + this->width && y >= this->y + scrool_pos && y <= this->y + this->height + scrool_pos)
+			{
+				AfxMessageBox(L"CreateSphereButton up");
+				return 1;
+			}
+		}
+	}
+	//AfxMessageBox(L"CreateSphereButton");
+	return 0;
+}
+
+CreateCylinderButton::CreateCylinderButton()
+{
+
+}
+
+int CreateCylinderButton::event(int eventtype, int x, int y)
+{
+	//AfxMessageBox(L"CreateCylinderButton");
+	if (eventtype == EVENT_LBUTTON_UP)
+	{
+		if (this->enabled == TRUE)
+		{
+			if (x >= this->x + 5 && x <= this->x + this->width && y >= this->y + scrool_pos && y <= this->y + this->height + scrool_pos)
+			{
+				AfxMessageBox(L"CreateCylinderButton up");
+				return 1;
+			}
+		}
 	}
 	return 0;
 }

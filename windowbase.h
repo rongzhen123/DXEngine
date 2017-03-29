@@ -1,9 +1,13 @@
 #pragma once
 #include "stdafx.h"
-#include "ControlBase.h"
+
 #ifndef WINDOWBASE
 #define WINDOWBASE
 using namespace std;
+#include "ControlBase.h"
+//#include "DXEngine.h"
+//class ControlBase;
+
 class WindowBase
 {
 public:

@@ -4,28 +4,13 @@
 #include "stdafx.h"
 #include "DXEngine.h"
 
-#include "ShareDefine.h"
-#include <vector>
-#include "Common/d3dApp.h"
-#include "Common/d3dx11Effect.h"
-#include "Common/GeometryGenerator.h"
-#include "Common/MathHelper.h"
-#include "Common/LightHelper.h"
-
-#include "Common/Waves.h"
-#include "Effects.h"
-#include "Vertex.h"
-#include "RenderStates.h"
-#include "WindowManager.h"
 #define MAX_LOADSTRING 100
-
 
 using namespace std;
 // 全局变量: 
 
-
 // 当前实例
-WCHAR szTitle[MAX_LOADSTRING];                  // 标题栏文本
+/*WCHAR szTitle[MAX_LOADSTRING];                  // 标题栏文本
 WCHAR szWindowClass[MAX_LOADSTRING];            // 主窗口类名
 
 // 此代码模块中包含的函数的前向声明: 
@@ -33,7 +18,7 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-
+*/
 /*
 ID3D11Device* md3dDevice;
 ID3D11DeviceContext* md3dImmediateContext;
@@ -53,6 +38,8 @@ enum RenderOptions
 
 class DXEngineApp : public D3DApp
 {
+public:
+	NormalWindow* toolswbar;
 public:
 	DXEngineApp(HINSTANCE hInstance);
 	~DXEngineApp();
@@ -134,28 +121,57 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
 	engineApp->SetUpToolWindows();
 	HINSTANCE hInstance = engineApp->AppInst();
-	MyRegisterClass(hInstance);
-	HWND hWnd = CreateWindowEx(WS_EX_LAYERED, L"MenuWindow", L"工具窗", WS_OVERLAPPED, 0, 0, 200, 600, engineApp->MainWnd(), NULL, hInstance, (LPVOID)engineApp);
-	if (!hWnd)
-	{
-		AfxMessageBox(L"Create Backwindow error");
-		return FALSE;
-	}
-	ShowWindow(hWnd, TRUE);
-	UpdateWindow(hWnd);
-	SetLayeredWindowAttributes(hWnd, 0, 250, LWA_ALPHA);
+	WindowManager* windowManager = WindowManager::getInstance();
+	windowManager->Init(hInstance);
+	engineApp->toolswbar = new NormalWindow();
+	engineApp->toolswbar->title = L"工具窗口";
+	engineApp->toolswbar->position_x = 100;
+	engineApp->toolswbar->position_y = 200;
+	engineApp->toolswbar->window_height = 800;
+	engineApp->toolswbar->window_width = 400;
+	engineApp->toolswbar->color = RGB(255,255,255);
+	engineApp->toolswbar->userdata = (void*)engineApp;
+	engineApp->toolswbar->child_controls.clear();
 
-	MSG msg;
+	CreatePlaneButton* cpb = new CreatePlaneButton();
+	cpb->x = 30;
+	cpb->y = 40;
+	cpb->width = 130;
+	cpb->height = 50;
+	cpb->title = L"创建平面";
+	//cpb->parent = engineApp->toolswbar;
+	engineApp->toolswbar->child_controls.push_back(cpb);
 
-	// 主消息循环: 
-	while (GetMessage(&msg, nullptr, 0, 0))
-	{
-		//if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-	}
+	CreateBoxButton* cbb = new CreateBoxButton();
+	cbb->x = 180;
+	cbb->y = 40;
+	cbb->width = 130;
+	cbb->height = 50;
+	cbb->title = L"创建方体";
+	//cbb->parent = engineApp->toolswbar;
+	engineApp->toolswbar->child_controls.push_back(cbb);
+
+	CreateSphereButton* chb = new CreateSphereButton();
+	chb->x = 30;
+	chb->y = 100;
+	chb->width = 130;
+	chb->height = 50;
+	chb->title = L"创建球体";
+	//chb->parent = engineApp->toolswbar;
+	engineApp->toolswbar->child_controls.push_back(chb);
+
+	CreateCylinderButton* ccb = new CreateCylinderButton();
+	ccb->x = 180;
+	ccb->y = 100;
+	ccb->width = 130;
+	ccb->height = 50;
+	ccb->title = L"创建圆柱";
+	//ccb->parent = engineApp->toolswbar;
+	engineApp->toolswbar->child_controls.push_back(ccb);
+
+	windowManager->RegisterWindow(engineApp->toolswbar);
+	windowManager->MessageLoop();
+	
 	GdiplusShutdown(m_gdiplusToken);
 }
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -165,93 +181,18 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-	//BlendApp theApp(hInstance);
-	WindowManager* window1 = WindowManager::getInstance();
-	WindowManager* window2 = WindowManager::getInstance();
-	if (window1 == window2)
-	{
-		AfxMessageBox(L"single ok!");
-	}
 	DXEngineApp theApp(hInstance);
-
 	if (!theApp.Init())
 	{
 		return 0;
 	}
-
 	theApp.m_MenuThread = CreateThread(NULL, 0, DXEngineApp::MenuThread, (LPVOID)&theApp, 0, NULL);
 	if (theApp.m_MenuThread == NULL)
 	{
 		MessageBox(NULL, L"创建菜单线程失败！", L"Error", MB_ICONERROR);
 		return FALSE;
 	}
-
 	theApp.Run();
-
-
-	/*//枚举窗口判断是否有本程序的另一个实例正在运行中
-	has_another_app_run = FALSE;
-	
-    // 初始化全局字符串
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_MY6022SELFCHECK, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
-	GdiplusStartupInput gdiplusStartupInput;
-	GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
-    // 执行应用程序初始化: 
-    if (!InitInstance (hInstance, nCmdShow))
-    {
-        return FALSE;
-    }
-	RECT rect;
-	GetClientRect(ghwnd, &rect);
-	product_type = CreateWindow(L"combobox", L"", WS_VISIBLE | WS_CHILD | WS_BORDER | CBS_AUTOHSCROLL | CBS_DROPDOWNLIST | DT_VCENTER | WS_VSCROLL, (rect.right - rect.left) / 2 + (rect.right - rect.left) / 3, (rect.bottom - rect.top)/12, 200, 160, ghwnd, NULL, NULL, NULL);
-	if (!product_type)
-	{
-		return 0;
-	}
-	ShowWindow(product_type, TRUE);
-	UpdateWindow(product_type);
-
-	loghwnd = CreateWindow(L"edit", L"", WS_VISIBLE | WS_CHILD | WS_BORDER | WS_VSCROLL | ES_LEFT | DT_VCENTER, 5, 5, (rect.right - rect.left) / 4, (rect.bottom - rect.top) / 7, ghwnd, NULL, NULL, NULL);
-	if (!loghwnd)
-	{
-		return 0;
-	}
-	ShowWindow(loghwnd, TRUE);
-	UpdateWindow(loghwnd);
-
-	SendMessage(product_type, CB_ADDSTRING, 0, (LPARAM)L"6022BE");
-	SendMessage(product_type, CB_ADDSTRING, 0, (LPARAM)L"6022BL");
-	//int y = SendMessage(product_type, CB_GETCOUNT, 0, 0);
-	SendMessage(product_type, CB_SETCURSEL, 0, 0);
-	
-	//targethwnd = targethwnd_LA = NULL;
-//	SetupCaliParameters();
-	
-	CString path = GetAppPath() + CONFIG_FILE_NAME;
-	//EnumIniFile(path);
-
-	//SetUpWindowItems();
-	InvalidateRect(ghwnd, NULL, FALSE);
-
-	
-	//枚举系统所有窗口查找我们要通信的6022上位机软件主窗口
-	//EnumWindows(EnumWindowsProc, NULL);
-	//m_hCheckThreadProc = CreateThread(NULL, 0, CheckThread, NULL, 0, NULL);
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY6022SELFCHECK));
-    MSG msg;
-    // 主消息循环: 
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-    }
-	GdiplusShutdown(m_gdiplusToken);
-    return (int) msg.wParam;*/
 	return 1;
 }
 
@@ -352,29 +293,6 @@ bool DXEngineApp::Init()
 	//BuildCrateGeometryBuffers();
 
 	return true;
-}
-int create_plane_button_hit(int x)
-{
-	AfxMessageBox(L"CREATE PLANE");
-	return 1;
-}
-
-int create_box_button_hit(int x)
-{
-	AfxMessageBox(L"CREATE BOX");
-	return 1;
-}
-
-int create_sphere_button_hit(int x)
-{
-	AfxMessageBox(L"CREATE SPHERE");
-	return 1;
-}
-
-int create_cylinder_button_hit(int x)
-{
-	AfxMessageBox(L"CREATE CYLINDER");
-	return 1;
 }
 
 void DXEngineApp::SetUpToolWindows()
@@ -660,6 +578,7 @@ void DXEngineApp::DrawScene()
 	*/
 	HR(mSwapChain->Present(0, 0));
 }
+/*
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
     WNDCLASSEXW wcex;
@@ -698,7 +617,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    SetLayeredWindowAttributes(hWnd, 0, 250, LWA_ALPHA);
    ghwnd = hWnd;
    return TRUE;
-}
+}*/
 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

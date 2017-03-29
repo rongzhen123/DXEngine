@@ -1,8 +1,11 @@
 #pragma once
 #include "stdafx.h"
 
+
 #ifndef CONTROLBASE
 #define CONTROLBASE
+#include "windowbase.h"
+
 extern SizeF GetTextBounds(const Font& font, const StringFormat& strFormat, const CString& szText);
 extern void DrawRoundRectange(Graphics &g, Color pens, int x, int y, int width, int height);
 extern void DrawGroupRectange(Graphics &g, Color pens, int x, int y, int width, int height, CString header, LONG length);
@@ -13,7 +16,7 @@ extern void DrawRoundRectange(Graphics &g, Color pens, int x, int y, int width, 
 extern void FillRoundRectangle(Graphics &g, Color color, int x, int y, int width, int height, int roundwidth);
 extern  void DrawRoundRectangewithpen(Graphics &g, Color pens, int x, int y, int width, int height, int roundwidth, int penwidth);
 
-
+//class DXEngine;
 class ControlBase
 {
 public:
@@ -38,8 +41,10 @@ public:
 	BOOL ifhit;//是否被点击，鼠标按下时在此控件上该值为TRUE;
 	//view* subview;
 	int scrool_pos;
-	HWND parent;//该控件的父窗口
+	//HWND parent;//该控件的父窗口
+	//WindowBase* parent;
 	void *userdata;//指向用户自定义的附加数据
+
 	BOOL if_follow_scrool;//是否跟踪滚动，有些控件在判断事件时不需要将滚动的位置信息添加到自己的位置信息中,大部分控件都需要，默认为TRUE,只有少数控件不需要，可以改变此值
 	ControlBase()
 	{
@@ -52,6 +57,7 @@ public:
 		update_value = NULL;
 		step_index = -1;
 		font_size = 20;
+		scrool_pos = 0;
 	}
 	virtual ~ControlBase()
 	{

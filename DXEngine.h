@@ -1,8 +1,6 @@
 #pragma once
-
-#include "resource.h"
-#pragma once
-
+#ifndef DXENGINE
+#define DXENGINE
 #include "resource.h"
 
 ULONG_PTR m_gdiplusToken;
@@ -23,6 +21,26 @@ ULONG_PTR m_gdiplusToken1;
 #include <deque>
 #include <algorithm>
 #include <commdlg.h>
+#include "ShareDefine.h"
+#include <vector>
+#include "Common/d3dApp.h"
+#include "Common/d3dx11Effect.h"
+#include "Common/GeometryGenerator.h"
+#include "Common/MathHelper.h"
+#include "Common/LightHelper.h"
+#include "Common/Waves.h"
+#include "Effects.h"
+#include "Vertex.h"
+#include "RenderStates.h"
+#include "WindowManager.h"
+#include "NormalWindow.h"
+#include "ColorButton.h"
+class ColorButton;
+class CreatePlaneButton;
+class CreateBoxButton;
+class CreateSphereButton;
+class CreateCylinderButton;
+class WindowBase;
 using namespace std;
 #define swap(x,y) int temp = x;x=y;y=temp;
 
@@ -3834,3 +3852,6 @@ struct item
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #endif
 #pragma endregion
+
+
+#endif

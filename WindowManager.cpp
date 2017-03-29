@@ -34,7 +34,7 @@ WindowManager * WindowManager::getInstance()
 int WindowManager::Init(HINSTANCE hInst)
 {
 	WNDCLASSEXW wcex;
-
+	hInstance = hInst;
 	wcex.cbSize = sizeof(WNDCLASSEX);
 
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
@@ -49,8 +49,14 @@ int WindowManager::Init(HINSTANCE hInst)
 	wcex.lpszClassName = L"WindowManager";
 	wcex.hIconSm = NULL;//LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-	RegisterClassExW(&wcex);
+	if (RegisterClassExW(&wcex))
+	{
 
+	}
+	else
+	{
+		AfxMessageBox(L"RegisterClassExW ERROR");
+	}
 	windows.clear();
 
 	return 0;
@@ -157,11 +163,14 @@ LRESULT WindowManager::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			HBITMAP comdcoldbitmap;
 			RECT rect;
 			GetClientRect(hwnd, &rect);
+			HBRUSH hBrush;
 			hbm = CreateCompatibleBitmap(hdc, rect.right - rect.left, rect.bottom - rect.top);
 			comdcoldbitmap = (HBITMAP)SelectObject(comdc, hbm);
 			auto it = windows.find(hwnd);
 			if (it != windows.end())
 			{
+				hBrush = CreateSolidBrush(it->second->color);
+				FillRect(comdc, &rect, hBrush);
 				it->second->OnDraw(comdc);
 			}
 			BitBlt(hdc, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top - 20, comdc, 0, 0, SRCCOPY);
@@ -192,9 +201,12 @@ int WindowManager::MessageLoop()
 
 BOOL WindowManager::RegisterWindow(WindowBase * wb)
 {
-	HWND hWnd = CreateWindowEx(WS_EX_LAYERED, L"WindowManager", wb->title, WS_OVERLAPPED, 0, 0, wb->window_width, wb->window_height, wb->parent, NULL, hInstance, (LPVOID)NULL);
+	HWND hWnd = CreateWindowEx(WS_EX_LAYERED, L"WindowManager", wb->title, WS_OVERLAPPED, 0, 0, wb->window_width, wb->window_height, nullptr, NULL, hInstance, (LPVOID)NULL);
 	if (!hWnd)
 	{
+		CString tip;
+		tip.Format(L"RegisterWindow error id = %d", GetLastError());
+		AfxMessageBox(tip);
 		return FALSE;
 	}
 	ShowWindow(hWnd, TRUE);
