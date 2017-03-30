@@ -76,6 +76,23 @@ enum Align_Type
 	Align_Left,	//居左对齐
 	Align_Right	//右对齐
 };
+
+enum Edit_Text_Align_Type
+{
+	Align_LEFT,//居中对齐
+	Align_RIGHT,	//居左对齐
+	Align_LEFT_TOP,	//右对齐
+	Align_RIGHT_TOP
+};
+
+enum Content_Type
+{
+	Content_Type_Any,//任意
+	Content_Type_Digit_Int,//整数
+	Content_Type_Digit_Float,//小数
+	Content_Type_Alphabet//字母
+};
+
 enum  ToastLevel
 {
 	LEVEL_TIP,//该级别的消息停留一定的时间后会自动消失
@@ -144,4 +161,16 @@ enum _OTHERS
 	OTHERS_4,
 	OTHERS_NUM,
 };
+
+// Enable Visual Style
+#if defined _M_IX86
+#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#elif defined _M_IA64
+#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='ia64' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#elif defined _M_X64
+#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='amd64' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#else
+#pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#endif
+#pragma endregion
 

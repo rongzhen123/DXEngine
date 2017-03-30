@@ -93,6 +93,12 @@
     <ClInclude Include="NormalWindow.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="TextControl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EditBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -153,6 +159,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="NormalWindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TextControl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EditBox.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

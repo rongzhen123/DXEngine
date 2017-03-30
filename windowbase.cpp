@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "windowbase.h"
 #include "ControlBase.h"
+
 WindowBase::WindowBase()
 	:window_width(0),
 	window_height(0),
@@ -43,5 +44,9 @@ void WindowBase::OnCreate()
 }
 
 void WindowBase::OnClose()
+{
+}
+
+void WindowBase::OnCtrlEditUpdate(HWND ctrl_hwnd)
 {
 }

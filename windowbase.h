@@ -4,21 +4,20 @@
 #ifndef WINDOWBASE
 #define WINDOWBASE
 using namespace std;
-
-//#include "DXEngine.h"
 class ControlBase;
-
+//class WindowManager;
 class WindowBase
 {
 public:
 	WindowBase();
-
 	int window_width;
 	int window_height;
 	int position_x;
 	int position_y;
 	HWND hwnd;
 	HWND parent;
+	HINSTANCE hinstnce;
+	//ControlBase* parent;
 	CString title;
 	COLORREF color;//ÑÕÉ«
 	void* userdata;
@@ -32,7 +31,7 @@ public:
 	virtual void OnMouseMove(int mousedown);
 	virtual void OnCreate();
 	virtual void OnClose();
-
+	virtual void OnCtrlEditUpdate(HWND ctrl_hwnd);
 };
 
 #endif

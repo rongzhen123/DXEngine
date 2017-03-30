@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "ColorButton.h"
-#include "DXEngine.h"
+//#include "DXEngine.h"
 ColorButton::ColorButton()
 	:ControlBase()
 {
@@ -33,7 +33,7 @@ int ColorButton::draw(HDC hdc)
 			t = GetTextBounds(font2, &stringformat, this->title);
 			int w = this->width - 25 - t.Width;
 			int h = (this->height - t.Height) / 2;
-			Gdiplus::PointF point0(this->x + w / 2 - 5, this->y + h + scrool_pos - 5);
+			Gdiplus::PointF point0(this->x + w / 2 - 5, this->y + h + scrool_pos);
 			g.DrawString(this->title, -1, &font2, point0, &brush);
 		}
 		else
@@ -52,7 +52,7 @@ int ColorButton::draw(HDC hdc)
 			t = GetTextBounds(font2, &stringformat, this->title);
 			int w = this->width - 25 - t.Width;
 			int h = (this->height - t.Height) / 2;
-			Gdiplus::PointF point0(this->x + w / 2 - 5, this->y + h - 5);
+			Gdiplus::PointF point0(this->x + w / 2 - 5, this->y + h);
 			g.DrawString(this->title, -1, &font2, point0, &brush);
 		}
 	}
@@ -93,7 +93,7 @@ int CreatePlaneButton::event(int eventtype, int x, int y)
 			if (x >= this->x + 5 && x <= this->x + this->width && y >= this->y + scrool_pos && y <= this->y + this->height + scrool_pos)
 			{
 				AfxMessageBox(L"CreatePlaneButton up");
-				((DXEngine*)(userdata));
+				//((DXEngineApp*)(userdata))->
 				return 1;
 			}
 		}
@@ -164,5 +164,63 @@ int CreateCylinderButton::event(int eventtype, int x, int y)
 			}
 		}
 	}
+	return 0;
+}
+
+CreateCylinder::CreateCylinder()
+{
+}
+
+int CreateCylinder::event(int eventtype, int x, int y)
+{
+	return 0;
+}
+
+CreatePlane::CreatePlane()
+{
+}
+
+int CreatePlane::event(int eventtype, int x, int y)
+{
+	if (eventtype == EVENT_LBUTTON_UP)
+	{
+		if (this->enabled == TRUE)
+		{
+			if (x >= this->x + 5 && x <= this->x + this->width && y >= this->y + scrool_pos && y <= this->y + this->height + scrool_pos)
+			{
+				AfxMessageBox(L"CreatePlane up");
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+CreateBox::CreateBox()
+{
+}
+
+int CreateBox::event(int eventtype, int x, int y)
+{
+	if (eventtype == EVENT_LBUTTON_UP)
+	{
+		if (this->enabled == TRUE)
+		{
+			if (x >= this->x + 5 && x <= this->x + this->width && y >= this->y + scrool_pos && y <= this->y + this->height + scrool_pos)
+			{
+				AfxMessageBox(L"CreateBox up");
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+CreateSphere::CreateSphere()
+{
+}
+
+int CreateSphere::event(int eventtype, int x, int y)
+{
 	return 0;
 }

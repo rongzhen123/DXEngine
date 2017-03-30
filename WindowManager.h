@@ -21,7 +21,7 @@ public:
 	int Init(HINSTANCE hInst);
 	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	int MessageLoop();
-	BOOL RegisterWindow(WindowBase* wb);
+	HWND RegisterWindow(WindowBase* wb);
 
 	CString name;
 	map<HWND, WindowBase*> windows;

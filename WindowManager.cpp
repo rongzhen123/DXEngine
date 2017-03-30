@@ -199,7 +199,7 @@ int WindowManager::MessageLoop()
 	return 0;
 }
 
-BOOL WindowManager::RegisterWindow(WindowBase * wb)
+HWND WindowManager::RegisterWindow(WindowBase * wb)
 {
 	HWND hWnd = CreateWindowEx(WS_EX_LAYERED, L"WindowManager", wb->title, WS_OVERLAPPED, 0, 0, wb->window_width, wb->window_height, nullptr, NULL, hInstance, (LPVOID)NULL);
 	if (!hWnd)
@@ -207,13 +207,13 @@ BOOL WindowManager::RegisterWindow(WindowBase * wb)
 		CString tip;
 		tip.Format(L"RegisterWindow error id = %d", GetLastError());
 		AfxMessageBox(tip);
-		return FALSE;
+		return NULL;
 	}
 	ShowWindow(hWnd, TRUE);
 	UpdateWindow(hWnd);
 	SetLayeredWindowAttributes(hWnd, 0, 250, LWA_ALPHA);
 	windows.insert(make_pair(hWnd,wb));
-	return TRUE;
+	return hWnd;
 }
 
 

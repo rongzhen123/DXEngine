@@ -3,10 +3,11 @@
 #ifndef COLORBUTTON
 #define COLORBUTTON
 #include "ControlBase.h"
-class DXEngine;
+#include "DXEngine.h"
 class ColorButton : public ControlBase
 {
 public:
+	DXEngineApp* app;
 	ColorButton();
 	int draw(HDC hdc);//控件的绘制函数
 	int event(int eventtype, int x, int y);
@@ -35,6 +36,31 @@ class CreateCylinderButton : public ColorButton
 {
 public:
 	CreateCylinderButton();
+	int event(int eventtype, int x, int y);
+};
+
+class CreateCylinder : public ColorButton
+{
+public:
+	CreateCylinder();
+	int event(int eventtype, int x, int y);
+};
+class CreatePlane : public ColorButton
+{
+public:
+	CreatePlane();
+	int event(int eventtype, int x, int y);
+};
+class CreateBox : public ColorButton
+{
+public:
+	CreateBox();
+	int event(int eventtype, int x, int y);
+};
+class CreateSphere : public ColorButton
+{
+public:
+	CreateSphere();
 	int event(int eventtype, int x, int y);
 };
 
