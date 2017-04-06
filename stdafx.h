@@ -27,6 +27,7 @@
 #include "Shlwapi.h"
 #pragma comment(lib,"Shlwapi.lib")
 
+#include "assert.h"
 #include  <mmsystem.h>
 #pragma comment(lib,"winmm.lib")
 
@@ -35,7 +36,7 @@ using namespace Gdiplus;
 #pragma comment(lib,"gdiplus.lib")
 #include <map>
 #include <vector>
-
+#include <list>
 #define OFFSET_X 5	//画圆角矩形是圆角的X方向半径
 #define OFFSET_Y 5
 
@@ -49,7 +50,7 @@ using namespace Gdiplus;
 #define EVENT_LBUTTON_DOWN 2
 #define EVENT_MOUSEMOVE 3
 #define EVENT_MOUSEOUT_UP 4 //鼠标松开
-
+typedef float Real;
 enum  control_type
 {
 	Title,//静态文本，不自动换行

@@ -99,6 +99,45 @@
     <ClInclude Include="EditBox.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="AxisAlignedBox.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneBoundedVolume.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -166,6 +205,30 @@
     </ClCompile>
     <ClCompile Include="EditBox.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix3.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
