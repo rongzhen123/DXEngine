@@ -65,6 +65,7 @@ public:
 	int sphere_radius, sphere_slice_count, sphere_stack_count;
 	int cylinder_top_radius, cylinder_bottom_radius, cylinder_slice_count, cylinder_stack_count;
 
+
 	void SetupPlane(int width,int depth,int m,int n);
 	void SetupBox(int width,int height,int depth);
 	void SetupSphere(int radius,int slicecount,int stackcount);

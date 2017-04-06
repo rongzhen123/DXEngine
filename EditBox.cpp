@@ -9,7 +9,7 @@ EditBox::EditBox()
 	text_align_type(Align_LEFT),
 	ControlBase()
 {
-
+	type = Edit_Box;
 }
 
 EditBox::EditBox(CString & t)
@@ -20,7 +20,7 @@ EditBox::EditBox(CString & t)
 	text_align_type(Align_LEFT),
 	ControlBase()
 {
-
+	type = Edit_Box;
 }
 
 EditBox::EditBox(const wchar_t * t) 
@@ -32,7 +32,7 @@ EditBox::EditBox(const wchar_t * t)
 	content_type(Content_Type_Digit_Int),
 	ControlBase()
 {
-
+	type = Edit_Box;
 }
 
 void EditBox::Create()
@@ -45,9 +45,17 @@ void EditBox::Create()
 		AfxMessageBox(tip);
 		return;
 	}
-	ShowWindow(hwnd, TRUE);
+	if (hide)
+	{
+		ShowWindow(hwnd, FALSE);
+	}
+	else
+	{
+		ShowWindow(hwnd, TRUE);
+	}
+	
 	UpdateWindow(hwnd);
-
+	type = Edit_Box;
 	//´´½¨Âß¼­×ÖÌå
 	/*HFONT hFont = CreateFont(20, 20, 0, 0, 400 ,
 		FALSE, FALSE, FALSE, DEFAULT_CHARSET,
@@ -72,6 +80,11 @@ int EditBox::draw(HDC hdc)
 		Gdiplus::PointF point1(this->x, this->y + scrool_pos);
 		Gdiplus::RectF rect(this->x, this->y+2, this->width, this->height);
 		g.DrawString(title, -1, &font1, rect, &stringformat, &brush);
+		ShowWindow(hwnd, TRUE);
+	}
+	else
+	{
+		ShowWindow(hwnd, FALSE);
 	}
 	return 0;
 }
@@ -80,3 +93,4 @@ int EditBox::event(int eventtype, int x, int y)
 {
 	return 0;
 }
+

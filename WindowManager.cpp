@@ -65,6 +65,7 @@ int WindowManager::Init(HINSTANCE hInst)
 LRESULT WindowManager::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;
+	int wmId, wmEvent;
 	switch (msg)
 	{
 		case WM_CREATE:
@@ -76,6 +77,28 @@ LRESULT WindowManager::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			}
 		}
 		return 0;
+		case WM_COMMAND:
+			wmId = LOWORD(wParam);
+			wmEvent = HIWORD(wParam);
+			if (wmEvent == EN_SETFOCUS)
+			{
+
+			}
+			else if (wmEvent == EN_KILLFOCUS)
+			{
+
+			}
+			else if (wmEvent == EN_UPDATE)
+			{
+				HWND controlhwnd = (HWND)lParam;
+				//ShowWindow(controlhwnd, FALSE);
+				auto it = windows.find(hwnd);
+				if (it != windows.end())
+				{
+					it->second->OnCtrlEditUpdate(controlhwnd);
+				}
+			}
+			return 0;
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;

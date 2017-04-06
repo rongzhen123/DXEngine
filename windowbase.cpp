@@ -49,4 +49,5 @@ void WindowBase::OnClose()
 
 void WindowBase::OnCtrlEditUpdate(HWND ctrl_hwnd)
 {
+
 }

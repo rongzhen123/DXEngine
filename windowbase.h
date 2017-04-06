@@ -17,12 +17,12 @@ public:
 	HWND hwnd;
 	HWND parent;
 	HINSTANCE hinstnce;
+	
 	//ControlBase* parent;
 	CString title;
 	COLORREF color;//ÑÕÉ«
 	void* userdata;
 	vector<ControlBase*> child_controls;//×Ó¿Ø¼þ
-
 	virtual void OnDraw(HDC dc);
 	virtual void OnLButtonDown(int x,int y);
 	virtual void OnLButtonUp(int x,int y);

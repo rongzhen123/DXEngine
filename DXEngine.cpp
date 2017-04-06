@@ -10,7 +10,7 @@
 #define MAX_LOADSTRING 100
 ULONG_PTR m_gdiplusToken;
 
-
+DXEngineApp* engineApp;
 /*
 ID3D11Device* md3dDevice;
 ID3D11DeviceContext* md3dImmediateContext;
@@ -21,10 +21,92 @@ ID3D11DepthStencilView* mDepthStencilView;
 D3D11_VIEWPORT mScreenViewport;
 */
 
+int set_plane_width(int w)
+{
+	CString tip;
+	tip.Format(L"set_plane_width w=%d",w);
+//	AfxMessageBox(tip);
+	engineApp->plane_width = w;
+	return 0;
+}
+int set_plane_depth(int d)
+{
+	CString tip;
+	tip.Format(L"set_plane_depth d=%d", d);
+	//AfxMessageBox(tip);
+	engineApp->plane_depth = d;
+	return 0;
+}
+int set_plane_m(int m)
+{
+	CString tip;
+	tip.Format(L"set_plane_m m=%d", m);
+	//AfxMessageBox(tip);
+	engineApp->m = m;
+	return 0;
+}
+int set_plane_n(int n)
+{
+	CString tip;
+	tip.Format(L"set_plane_n n=%d", n);
+	//AfxMessageBox(tip);
+	engineApp->n = n;
+	return 0;
+}
+int set_box_width(int w)
+{
+	engineApp->box_width = w;
+	return 0;
+}
+int set_box_height(int h)
+{
+	engineApp->box_height = h;
+	return 0;
+}
+int set_box_depth(int d)
+{
+	engineApp->box_depth = d;
+	return 0;
+}
+int set_sphere_radius(int sr)
+{
+	engineApp->sphere_radius = sr;
+	return 0;
+}
+int set_sphere_slice_count(int sc)
+{
+	engineApp->sphere_slice_count = sc;
+	return 0;
+}
+int set_sphere_stack_count(int stc)
+{
+	engineApp->sphere_stack_count = stc;
+	return 0;
+}
 
+int set_cylinder_top_radius(int ctr)
+{
+	engineApp->cylinder_top_radius = ctr;
+	return 0;
+}
+int set_cylinder_bottom_radius(int ctr)
+{
+	engineApp->cylinder_bottom_radius = ctr;
+	return 0;
+}
+int set_cylinder_slice_count(int ctr)
+{
+	engineApp->cylinder_slice_count = ctr;
+	return 0;
+}
+int set_cylinder_stack_count(int ctr)
+{
+	engineApp->cylinder_stack_count = ctr;
+	return 0;
+}
 DWORD DXEngineApp::MenuThread(LPVOID lParam)
 {
-	DXEngineApp* engineApp = (DXEngineApp*)lParam;
+	//DXEngineApp* engineApp = (DXEngineApp*)lParam;
 	if (engineApp == NULL)
 	{
 		AfxMessageBox(L"MenuThread engineApp is null");
@@ -106,9 +188,11 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	eb_width->text_color = RGB(10,10,10);
 	eb_width->color = RGB(10, 10, 250);
 	eb_width->parent_hwnd = engineApp->toolswbar->hwnd;
+	eb_width->UpdateTargetValueFunc = set_box_width;
+	eb_width->content_type = Content_Type_Digit_Int;
 	eb_width->Create();
 	engineApp->toolswbar->child_controls.push_back(eb_width);
-	
+
 	EditBox* eb_depth = new EditBox();
 	eb_depth->x = 40;
 	eb_depth->y = 380;
@@ -116,12 +200,14 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	eb_depth->height = 20;
 	eb_depth->title = L"宽";
 	eb_depth->owner = L"box";
+	eb_depth->content_type = Content_Type_Digit_Int;
 	eb_depth->hide = TRUE;
 	eb_depth->font_size = 18;
 	eb_depth->text_font_size = 15;
 	eb_depth->text_color = RGB(10, 10, 10);
 	eb_depth->color = RGB(10, 10, 250);
 	eb_depth->parent_hwnd = engineApp->toolswbar->hwnd;
+	eb_depth->UpdateTargetValueFunc = set_box_depth;
 	eb_depth->Create();
 	engineApp->toolswbar->child_controls.push_back(eb_depth);
 
@@ -132,12 +218,14 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	eb_height->height = 20;
 	eb_height->title = L"高";
 	eb_height->owner = L"box";
+	eb_height->content_type = Content_Type_Digit_Int;
 	eb_height->hide = TRUE;
 	eb_height->font_size = 18;
 	eb_height->text_font_size = 15;
 	eb_height->text_color = RGB(10, 10, 10);
 	eb_height->color = RGB(10, 10, 250);
 	eb_height->parent_hwnd = engineApp->toolswbar->hwnd;
+	eb_height->UpdateTargetValueFunc = set_box_height;
 	eb_height->Create();
 	engineApp->toolswbar->child_controls.push_back(eb_height);
 
@@ -150,7 +238,9 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	cb_button->title = L"创建方体";
 	cb_button->hide = TRUE;
 	cb_button->font_size = 18;
+	cb_button->app = engineApp;
 	cb_button->parent_hwnd = engineApp->toolswbar->hwnd;
+	cb_button->parent = engineApp->toolswbar;
 	engineApp->toolswbar->child_controls.push_back(cb_button);
 
 	TextControl* tc2 = new TextControl(L"平面参数");
@@ -170,10 +260,12 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	eb_plane_width->height = 20;
 	eb_plane_width->title = L"长";
 	eb_plane_width->owner = L"plane";
+	eb_plane_width->content_type = Content_Type_Digit_Int;
 	eb_plane_width->font_size = 18;
 	eb_plane_width->text_font_size = 15;
 	eb_plane_width->text_color = RGB(10, 10, 10);
 	eb_plane_width->color = RGB(10, 10, 250);
+	eb_plane_width->UpdateTargetValueFunc = set_plane_width;
 	eb_plane_width->parent_hwnd = engineApp->toolswbar->hwnd;
 	eb_plane_width->Create();
 	engineApp->toolswbar->child_controls.push_back(eb_plane_width);
@@ -185,11 +277,13 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	eb_plane_depth->height = 20;
 	eb_plane_depth->title = L"宽";
 	eb_plane_depth->owner = L"plane";
+	eb_plane_depth->content_type = Content_Type_Digit_Int;
 	eb_plane_depth->font_size = 18;
 	eb_plane_depth->text_font_size = 15;
 	eb_plane_depth->text_color = RGB(10, 10, 10);
 	eb_plane_depth->color = RGB(10, 10, 250);
 	eb_plane_depth->parent_hwnd = engineApp->toolswbar->hwnd;
+	eb_plane_depth->UpdateTargetValueFunc = set_plane_depth;
 	eb_plane_depth->Create();
 	engineApp->toolswbar->child_controls.push_back(eb_plane_depth);
 
@@ -200,11 +294,13 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	eb_plane_width_divide->height = 20;
 	eb_plane_width_divide->title = L"列数";
 	eb_plane_width_divide->owner = L"plane";
+	eb_plane_width_divide->content_type = Content_Type_Digit_Int;
 	eb_plane_width_divide->font_size = 18;
 	eb_plane_width_divide->text_font_size = 15;
 	eb_plane_width_divide->text_color = RGB(10, 10, 10);
 	eb_plane_width_divide->color = RGB(10, 10, 250);
 	eb_plane_width_divide->parent_hwnd = engineApp->toolswbar->hwnd;
+	eb_plane_width_divide->UpdateTargetValueFunc = set_plane_m;
 	eb_plane_width_divide->Create();
 	engineApp->toolswbar->child_controls.push_back(eb_plane_width_divide);
 
@@ -215,11 +311,13 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	eb_plane_depth_divide->height = 20;
 	eb_plane_depth_divide->title = L"行数";
 	eb_plane_depth_divide->owner = L"plane";
+	eb_plane_depth_divide->content_type = Content_Type_Digit_Int;
 	eb_plane_depth_divide->font_size = 18;
 	eb_plane_depth_divide->text_font_size = 15;
 	eb_plane_depth_divide->text_color = RGB(10, 10, 10);
 	eb_plane_depth_divide->color = RGB(10, 10, 250);
 	eb_plane_depth_divide->parent_hwnd = engineApp->toolswbar->hwnd;
+	eb_plane_depth_divide->UpdateTargetValueFunc = set_plane_n;
 	eb_plane_depth_divide->Create();
 	engineApp->toolswbar->child_controls.push_back(eb_plane_depth_divide);
 
@@ -233,6 +331,8 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	//cp_button->hide = TRUE;
 	cp_button->font_size = 18;
 	cp_button->parent_hwnd = engineApp->toolswbar->hwnd;
+	cp_button->app = engineApp;
+	cp_button->parent = engineApp->toolswbar;
 	engineApp->toolswbar->child_controls.push_back(cp_button);
 
 	windowManager->MessageLoop();
@@ -250,6 +350,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	{
 		return 0;
 	}
+	engineApp = &theApp;
 	theApp.m_MenuThread = CreateThread(NULL, 0, DXEngineApp::MenuThread, (LPVOID)&theApp, 0, NULL);
 	if (theApp.m_MenuThread == NULL)
 	{
@@ -311,6 +412,13 @@ DXEngineApp::DXEngineApp(HINSTANCE hInstance)
 	mBoxMat.Ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 	mBoxMat.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	mBoxMat.Specular = XMFLOAT4(0.4f, 0.4f, 0.4f, 16.0f);
+
+	//创建几何体相关参数
+	 plane_width = plane_depth = m = n = 0;
+	 box_width = box_height = box_depth = 0;
+	 sphere_radius = sphere_slice_count = sphere_stack_count = 0;
+	 cylinder_top_radius = cylinder_bottom_radius = cylinder_slice_count = cylinder_stack_count = 0;
+
 }
 
 DXEngineApp::~DXEngineApp()
@@ -582,7 +690,9 @@ void DXEngineApp::DrawScene()
 
 void DXEngineApp::SetupPlane(int width, int depth, int m, int n)
 {
-
+	CString tip;
+	tip.Format(L"SetupPlane width=%d,depth=%d,m=%d,n=%d",width,depth,m,n);
+	AfxMessageBox(tip);
 }
 
 void DXEngineApp::SetupBox(int width, int height, int depth)
