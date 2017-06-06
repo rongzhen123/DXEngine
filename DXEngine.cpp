@@ -20,7 +20,36 @@ ID3D11RenderTargetView* mRenderTargetView;
 ID3D11DepthStencilView* mDepthStencilView;
 D3D11_VIEWPORT mScreenViewport;
 */
-
+int set_position_x(int x)
+{
+	engineApp->position_x = x;
+	return 0;
+}
+int set_position_y(int y)
+{
+	engineApp->position_y = y;
+	return 0;
+}
+int set_position_z(int z)
+{
+	engineApp->position_z = z;
+	return 0;
+}
+int set_scale_x(int x)
+{
+	engineApp->scale_x = x;
+	return 0;
+}
+int set_scale_y(int y)
+{
+	engineApp->scale_y = y;
+	return 0;
+}
+int set_scale_z(int z)
+{
+	engineApp->scale_z = z;
+	return 0;
+}
 int set_plane_width(int w)
 {
 	CString tip;
@@ -243,9 +272,83 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 	cb_button->parent = engineApp->toolswbar;
 	engineApp->toolswbar->child_controls.push_back(cb_button);
 
+	TextControl* tc11 = new TextControl(L"位置参数");
+	tc11->x = 30;
+	tc11->y = 170;
+	tc11->width = 150;
+	tc11->height = 40;
+	tc11->font_size = 18;
+	tc11->color = RGB(60, 60, 60);
+	tc11->owner = L"create_common";
+	engineApp->toolswbar->child_controls.push_back(tc11);
+
+	TextControl* tc12 = new TextControl(L"Position");
+	tc12->x = 20;
+	tc12->y = 210;
+	tc12->width = 150;
+	tc12->height = 40;
+	tc12->font_size = 16;
+	tc12->color = RGB(10, 10, 250);
+	tc12->owner = L"create_common";
+	engineApp->toolswbar->child_controls.push_back(tc12);
+
+	EditBox* position_x = new EditBox();
+	position_x->x = 100;
+	position_x->y = 210;
+	position_x->width = 50;
+	position_x->height = 20;
+	position_x->ref_pos = 20;
+	position_x->title = L"X";
+	position_x->owner = L"create_common";
+	position_x->content_type = Content_Type_Digit_Int;
+	position_x->font_size = 16;
+	position_x->text_font_size = 15;
+	position_x->text_color = RGB(10, 10, 10);
+	position_x->color = RGB(10, 10, 250);
+	position_x->UpdateTargetValueFunc = set_position_x;
+	position_x->parent_hwnd = engineApp->toolswbar->hwnd;
+	position_x->Create();
+	engineApp->toolswbar->child_controls.push_back(position_x);
+
+	EditBox* position_y = new EditBox();
+	position_y->x = 180;
+	position_y->y = 210;
+	position_y->width = 50;
+	position_y->height = 20;
+	position_y->ref_pos = 20;
+	position_y->title = L"Y";
+	position_y->owner = L"create_common";
+	position_y->content_type = Content_Type_Digit_Int;
+	position_y->font_size = 16;
+	position_y->text_font_size = 15;
+	position_y->text_color = RGB(10, 10, 10);
+	position_y->color = RGB(10, 10, 250);
+	position_y->UpdateTargetValueFunc = set_position_y;
+	position_y->parent_hwnd = engineApp->toolswbar->hwnd;
+	position_y->Create();
+	engineApp->toolswbar->child_controls.push_back(position_y);
+
+	EditBox* position_z = new EditBox();
+	position_z->x = 260;
+	position_z->y = 210;
+	position_z->width = 50;
+	position_z->height = 20;
+	position_z->ref_pos = 20;
+	position_z->title = L"Z";
+	position_z->owner = L"create_common";
+	position_z->content_type = Content_Type_Digit_Int;
+	position_z->font_size = 16;
+	position_z->text_font_size = 15;
+	position_z->text_color = RGB(10, 10, 10);
+	position_z->color = RGB(10, 10, 250);
+	position_z->UpdateTargetValueFunc = set_position_z;
+	position_z->parent_hwnd = engineApp->toolswbar->hwnd;
+	position_z->Create();
+	engineApp->toolswbar->child_controls.push_back(position_z);
+
 	TextControl* tc2 = new TextControl(L"平面参数");
 	tc2->x = 30;
-	tc2->y = 300;
+	tc2->y = 330;
 	tc2->width = 150;
 	tc2->height = 40;
 	tc2->font_size = 18;
@@ -255,7 +358,7 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 
 	EditBox* eb_plane_width = new EditBox();
 	eb_plane_width->x = 40;
-	eb_plane_width->y = 340;
+	eb_plane_width->y = 370;
 	eb_plane_width->width = 100;
 	eb_plane_width->height = 20;
 	eb_plane_width->title = L"长";
@@ -272,7 +375,7 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 
 	EditBox* eb_plane_depth = new EditBox();
 	eb_plane_depth->x = 40;
-	eb_plane_depth->y = 380;
+	eb_plane_depth->y = 410;
 	eb_plane_depth->width = 100;
 	eb_plane_depth->height = 20;
 	eb_plane_depth->title = L"宽";
@@ -289,7 +392,7 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 
 	EditBox* eb_plane_width_divide = new EditBox();
 	eb_plane_width_divide->x = 40;
-	eb_plane_width_divide->y = 420;
+	eb_plane_width_divide->y = 450;
 	eb_plane_width_divide->width = 100;
 	eb_plane_width_divide->height = 20;
 	eb_plane_width_divide->title = L"列数";
@@ -306,7 +409,7 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 
 	EditBox* eb_plane_depth_divide = new EditBox();
 	eb_plane_depth_divide->x = 40;
-	eb_plane_depth_divide->y = 460;
+	eb_plane_depth_divide->y = 490;
 	eb_plane_depth_divide->width = 100;
 	eb_plane_depth_divide->height = 20;
 	eb_plane_depth_divide->title = L"行数";
@@ -323,7 +426,7 @@ DWORD DXEngineApp::MenuThread(LPVOID lParam)
 
 	CreatePlane* cp_button = new CreatePlane();
 	cp_button->x = 90;
-	cp_button->y = 510;
+	cp_button->y = 540;
 	cp_button->width = 120;
 	cp_button->height = 40;
 	cp_button->owner = L"plane";
@@ -363,7 +466,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 DXEngineApp::DXEngineApp(HINSTANCE hInstance)
-	: D3DApp(hInstance), mLandVB(0), mLandIB(0), mWavesVB(0), mWavesIB(0), mBoxVB(0), mBoxIB(0), mGrassMapSRV(0), mWavesMapSRV(0), mBoxMapSRV(0),
+	: D3DApp(hInstance),
 	mWaterTexOffset(0.0f, 0.0f), mEyePosW(0.0f, 0.0f, 0.0f), mLandIndexCount(0), mRenderOptions(RenderOptions::TexturesAndFog),
 	mTheta(1.3f*MathHelper::Pi), mPhi(0.4f*MathHelper::Pi), mRadius(80.0f)
 {
@@ -372,6 +475,8 @@ DXEngineApp::DXEngineApp(HINSTANCE hInstance)
 
 	mLastMousePos.x = 0;
 	mLastMousePos.y = 0;
+
+	mCam.SetPosition(0.0f, 2.0f, -15.0f);
 
 	XMMATRIX I = XMMatrixIdentity();
 	XMStoreFloat4x4(&mLandWorld, I);
@@ -419,22 +524,15 @@ DXEngineApp::DXEngineApp(HINSTANCE hInstance)
 	 sphere_radius = sphere_slice_count = sphere_stack_count = 0;
 	 cylinder_top_radius = cylinder_bottom_radius = cylinder_slice_count = cylinder_stack_count = 0;
 
+	 mRenderQueue.clear();
 }
 
 DXEngineApp::~DXEngineApp()
 {
 	md3dImmediateContext->ClearState();
-	ReleaseCOM(mLandVB);
-	ReleaseCOM(mLandIB);
-	ReleaseCOM(mWavesVB);
-	ReleaseCOM(mWavesIB);
-	ReleaseCOM(mBoxVB);
-	ReleaseCOM(mBoxIB);
-	ReleaseCOM(mGrassMapSRV);
-	ReleaseCOM(mWavesMapSRV);
-	ReleaseCOM(mBoxMapSRV);
+	mRenderQueue.clear();
 
-	//Effects::DestroyAll();
+	Effects::DestroyAll();
 	//InputLayouts::DestroyAll();
 	//RenderStates::DestroyAll();
 }
@@ -443,256 +541,128 @@ bool DXEngineApp::Init()
 {
 	if (!D3DApp::Init())
 		return false;
-
-	mWaves.Init(160, 160, 1.0f, 0.03f, 5.0f, 0.3f);
-
-	// Must init Effects first since InputLayouts depend on shader signatures.
+	
 	Effects::InitAll(md3dDevice);
+/*
+	mWaves.Init(160, 160, 1.0f, 0.03f, 5.0f, 0.3f);
+	// Must init Effects first since InputLayouts depend on shader signatures.
 	InputLayouts::InitAll(md3dDevice);
 	RenderStates::InitAll(md3dDevice);
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice,
-		L"Textures/grass.dds", 0, 0, &mGrassMapSRV, 0));
-
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice,
-		L"Textures/circle011.dds", 0, 0, &mWavesMapSRV, 0));
-
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice,
-		L"Textures/circle011.dds", 0, 0, &mBoxMapSRV, 0));
-
+	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice,L"Textures/grass.dds", 0, 0, &mGrassMapSRV, 0));
+	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice,L"Textures/circle011.dds", 0, 0, &mWavesMapSRV, 0));
+	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice,L"Textures/circle011.dds", 0, 0, &mBoxMapSRV, 0));
 	//BuildLandGeometryBuffers();
 	//BuildWaveGeometryBuffers();
 	//BuildCrateGeometryBuffers();
-
+	*/
 	return true;
+}
+
+void DXEngineApp::OnResize()
+{
+	D3DApp::OnResize();
+
+	mCam.SetLens(0.25f*MathHelper::Pi, AspectRatio(), 1.0f, 1000.0f);
 }
 
 void DXEngineApp::UpdateScene(float dt)
 {
-	// Convert Spherical to Cartesian coordinates.
-	float x = mRadius*sinf(mPhi)*cosf(mTheta);
-	float z = mRadius*sinf(mPhi)*sinf(mTheta);
-	float y = mRadius*cosf(mPhi);
+	// Control the camera.
+	if (GetAsyncKeyState('W') & 0x8000)
+		mCam.Walk(10.0f*dt);
 
-	mEyePosW = XMFLOAT3(x, y, z);
+	if (GetAsyncKeyState('S') & 0x8000)
+		mCam.Walk(-10.0f*dt);
 
-	// Build the view matrix.
-	XMVECTOR pos = XMVectorSet(x, y, z, 1.0f);
-	XMVECTOR target = XMVectorZero();
-	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	if (GetAsyncKeyState('A') & 0x8000)
+		mCam.Strafe(-10.0f*dt);
 
-	XMMATRIX V = XMMatrixLookAtLH(pos, target, up);
-	XMStoreFloat4x4(&mView, V);
-/*
-	//
-	// Every quarter second, generate a random wave.
-	//
-	static float t_base = 0.0f;
-	if ((mTimer.TotalTime() - t_base) >= 0.1f)
-	{
-		t_base += 0.1f;
-
-		DWORD i = 5 + rand() % (mWaves.RowCount() - 10);
-		DWORD j = 5 + rand() % (mWaves.ColumnCount() - 10);
-
-		float r = MathHelper::RandF(0.5f, 1.0f);
-
-		mWaves.Disturb(i, j, r);
-	}
-
-	mWaves.Update(dt);
-
-	//
-	// Update the wave vertex buffer with the new solution.
-	//
-
-	D3D11_MAPPED_SUBRESOURCE mappedData;
-	HR(md3dImmediateContext->Map(mWavesVB, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedData));
-
-	Vertex::Basic32* v = reinterpret_cast<Vertex::Basic32*>(mappedData.pData);
-	for (UINT i = 0; i < mWaves.VertexCount(); ++i)
-	{
-		v[i].Pos = mWaves[i];
-		v[i].Normal = mWaves.Normal(i);
-
-		// Derive tex-coords in [0,1] from position.
-		v[i].Tex.x = 0.5f + mWaves[i].x / mWaves.Width();
-		v[i].Tex.y = 0.5f - mWaves[i].z / mWaves.Depth();
-	}
-
-	md3dImmediateContext->Unmap(mWavesVB, 0);
-
-	//
-	// Animate water texture coordinates.
-	//
-
-	// Tile water texture.
-	XMMATRIX wavesScale = XMMatrixScaling(5.0f, 5.0f, 0.0f);
-
-	// Translate texture over time.
-	mWaterTexOffset.y += 0.05f*dt;
-	mWaterTexOffset.x += 0.1f*dt;
-	XMMATRIX wavesOffset = XMMatrixTranslation(mWaterTexOffset.x, mWaterTexOffset.y, 0.0f);
-
-	// Combine scale and translation.
-	XMStoreFloat4x4(&mWaterTexTransform, wavesScale*wavesOffset);
-
-	//
-	// Switch the render mode based in key input.
-	//
-	if (GetAsyncKeyState('1') & 0x8000)
-		mRenderOptions = RenderOptions::Lighting;
-
-	if (GetAsyncKeyState('2') & 0x8000)
-		mRenderOptions = RenderOptions::Textures;
-
-	if (GetAsyncKeyState('3') & 0x8000)
-		mRenderOptions = RenderOptions::TexturesAndFog;*/
+	if (GetAsyncKeyState('D') & 0x8000)
+		mCam.Strafe(10.0f*dt);
 }
 
 void DXEngineApp::DrawScene()
 {
 	md3dImmediateContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&Colors::Black));
 	md3dImmediateContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
-	/*md3dImmediateContext->IASetInputLayout(InputLayouts::Basic32);
+	
 	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	mCam.UpdateViewMatrix();
 
-	UINT stride = sizeof(Vertex::Basic32);
-	UINT offset = 0;
+	XMMATRIX view = mCam.View();
+	XMMATRIX proj = mCam.Proj();
+	XMMATRIX viewProj = mCam.ViewProj();
 
-	XMMATRIX view = XMLoadFloat4x4(&mView);
-	XMMATRIX proj = XMLoadFloat4x4(&mProj);
-	XMMATRIX viewProj = view*proj;
-
-	// Set per frame constants.
-	Effects::BasicFX->SetDirLights(mDirLights);
-	Effects::BasicFX->SetEyePosW(mEyePosW);
-	Effects::BasicFX->SetFogColor(Colors::Silver);
-	Effects::BasicFX->SetFogStart(15.0f);
-	Effects::BasicFX->SetFogRange(175.0f);
-
-	ID3DX11EffectTechnique* boxTech;
-	ID3DX11EffectTechnique* landAndWavesTech;
-
-	switch (mRenderOptions)
+	for (unsigned int i = 0; i < mRenderQueue.size(); i++)
 	{
-	case RenderOptions::Lighting:
-		boxTech = Effects::BasicFX->Light3Tech;
-		landAndWavesTech = Effects::BasicFX->Light3Tech;
-		break;
-	case RenderOptions::Textures:
-		boxTech = Effects::BasicFX->Light3TexAlphaClipTech;
-		landAndWavesTech = Effects::BasicFX->Light3TexTech;
-		break;
-	case RenderOptions::TexturesAndFog:
-		boxTech = Effects::BasicFX->Light3TexAlphaClipFogTech;
-		landAndWavesTech = Effects::BasicFX->Light3TexFogTech;
-		break;
+		XMMATRIX world = XMMatrixIdentity();// XMMatrixTranslation(1.0f, 1.5f, 1.0f);
+		XMMATRIX worldViewProj =world *viewProj;
+		mRenderQueue[i]->mEffectWorldViewProj->SetMatrix(reinterpret_cast<float*>(&worldViewProj));
+		UINT stride = mRenderQueue[i]->mVertexStride;
+		UINT offset = 0;
+		md3dImmediateContext->IASetInputLayout(mRenderQueue[i]->mInputLayout);
+		md3dImmediateContext->IASetVertexBuffers(0, 1, &mRenderQueue[i]->mVB, &stride, &offset);
+		md3dImmediateContext->IASetIndexBuffer(mRenderQueue[i]->mIB, DXGI_FORMAT_R32_UINT, 0);
+		D3DX11_TECHNIQUE_DESC techDesc;
+		mRenderQueue[i]->mEffectTech->GetDesc(&techDesc);
+		for (UINT p = 0; p < techDesc.Passes; ++p)
+		{
+			mRenderQueue[i]->mEffectTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
+			md3dImmediateContext->DrawIndexed(mRenderQueue[i]->m_Indices.size(), 0, 0);
+		}
 	}
 
-	D3DX11_TECHNIQUE_DESC techDesc;
-
-
-
-	//
-	// Draw the hills and water with texture and fog (no alpha clipping needed).
-	//
-
-	landAndWavesTech->GetDesc(&techDesc);
-	for (UINT p = 0; p < techDesc.Passes; ++p)
-	{
-		//
-		// Draw the hills.
-		//
-		md3dImmediateContext->IASetVertexBuffers(0, 1, &mLandVB, &stride, &offset);
-		md3dImmediateContext->IASetIndexBuffer(mLandIB, DXGI_FORMAT_R32_UINT, 0);
-
-		// Set per object constants.
-		XMMATRIX world = XMLoadFloat4x4(&mLandWorld);
-		XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
-		XMMATRIX worldViewProj = world*view*proj;
-
-		Effects::BasicFX->SetWorld(world);
-		Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
-		Effects::BasicFX->SetWorldViewProj(worldViewProj);
-		Effects::BasicFX->SetTexTransform(XMLoadFloat4x4(&mGrassTexTransform));
-		Effects::BasicFX->SetMaterial(mLandMat);
-		Effects::BasicFX->SetDiffuseMap(mGrassMapSRV);
-
-		landAndWavesTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-		md3dImmediateContext->DrawIndexed(mLandIndexCount, 0, 0);
-
-		//
-		// Draw the waves.
-		//
-		md3dImmediateContext->IASetVertexBuffers(0, 1, &mWavesVB, &stride, &offset);
-		md3dImmediateContext->IASetIndexBuffer(mWavesIB, DXGI_FORMAT_R32_UINT, 0);
-
-		// Set per object constants.
-		world = XMLoadFloat4x4(&mWavesWorld);
-		worldInvTranspose = MathHelper::InverseTranspose(world);
-		worldViewProj = world*view*proj;
-
-		Effects::BasicFX->SetWorld(world);
-		Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
-		Effects::BasicFX->SetWorldViewProj(worldViewProj);
-		Effects::BasicFX->SetTexTransform(XMLoadFloat4x4(&mWaterTexTransform));
-		Effects::BasicFX->SetMaterial(mWavesMat);
-		Effects::BasicFX->SetDiffuseMap(mWavesMapSRV);
-
-		md3dImmediateContext->OMSetBlendState(RenderStates::TransparentBS, blendFactor, 0xffffffff);
-		landAndWavesTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-		md3dImmediateContext->DrawIndexed(3 * mWaves.TriangleCount(), 0, 0);
-
-		// Restore default blend state
-		md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xffffffff);
-	}
-
-	//
-	// Draw the box with alpha clipping.
-	// 
-
-	boxTech->GetDesc(&techDesc);
-	for (UINT p = 0; p < techDesc.Passes; ++p)
-	{
-		md3dImmediateContext->IASetVertexBuffers(0, 1, &mBoxVB, &stride, &offset);
-		md3dImmediateContext->IASetIndexBuffer(mBoxIB, DXGI_FORMAT_R32_UINT, 0);
-
-		// Set per object constants.
-		XMMATRIX world = XMLoadFloat4x4(&mBoxWorld);
-		XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
-		XMMATRIX worldViewProj = world*view*proj;
-
-		Effects::BasicFX->SetWorld(world);
-		Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
-		Effects::BasicFX->SetWorldViewProj(worldViewProj);
-		Effects::BasicFX->SetTexTransform(XMMatrixIdentity());
-		Effects::BasicFX->SetMaterial(mBoxMat);
-		Effects::BasicFX->SetDiffuseMap(mBoxMapSRV);
-
-		md3dImmediateContext->RSSetState(RenderStates::NoCullRS);
-		md3dImmediateContext->OMSetBlendState(RenderStates::TransparentBS, blendFactor, 0xffffffff);
-		boxTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-		md3dImmediateContext->DrawIndexed(36, 0, 0);
-
-		// Restore default render state.
-		md3dImmediateContext->RSSetState(0);
-
-		// Restore default blend state
-		md3dImmediateContext->OMSetBlendState(0, blendFactor, 0xffffffff);
-	}
-	*/
 	HR(mSwapChain->Present(0, 0));
+}
+float DXEngineApp::GetHillHeight(float x, float z)const
+{
+	return 0.3f*(z*sinf(0.1f*x) + x*cosf(0.1f*z));
 }
 
 void DXEngineApp::SetupPlane(int width, int depth, int m, int n)
 {
 	CString tip;
 	tip.Format(L"SetupPlane width=%d,depth=%d,m=%d,n=%d",width,depth,m,n);
-	AfxMessageBox(tip);
+	//AfxMessageBox(tip);
+	GeometryGenerator geoGen;
+	GeometryGenerator::MeshData plane;
+	
+	geoGen.CreateGrid(width, depth, m, n, plane);
+	
+	ManualMesh_Color* mesh1 = new ManualMesh_Color(Plane);
+	mesh1->Init(md3dDevice,plane,Effects::mEffectPosColor, Effects::mEffectTechPosColor, Effects::mInputLayout_PosColor,Effects::mEffectWorldViewProj_PosColor,Effects::mRS,Effects::mBS);
+	mRenderQueue.push_back(mesh1);
+}
+
+void DXEngineApp::OnMouseDown(WPARAM btnState, int x, int y)
+{
+	mLastMousePos.x = x;
+	mLastMousePos.y = y;
+
+	SetCapture(mhMainWnd);
+}
+
+void DXEngineApp::OnMouseUp(WPARAM btnState, int x, int y)
+{
+	ReleaseCapture();
+}
+
+void DXEngineApp::OnMouseMove(WPARAM btnState, int x, int y)
+{
+	if ((btnState & MK_LBUTTON) != 0)
+	{
+		// Make each pixel correspond to a quarter of a degree.
+		float dx = XMConvertToRadians(0.25f*static_cast<float>(x - mLastMousePos.x));
+		float dy = XMConvertToRadians(0.25f*static_cast<float>(y - mLastMousePos.y));
+
+		mCam.Pitch(dy);
+		mCam.RotateY(dx);
+	}
+
+	mLastMousePos.x = x;
+	mLastMousePos.y = y;
 }
 
 void DXEngineApp::SetupBox(int width, int height, int depth)

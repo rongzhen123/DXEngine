@@ -206,6 +206,7 @@
     <ClInclude Include="PlaneBoundedVolume.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Ray.h" />
+    <ClInclude Include="Renderable.h" />
     <ClInclude Include="RenderStates.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShareDefine.h" />
@@ -216,7 +217,6 @@
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
-    <ClInclude Include="Vertex.h" />
     <ClInclude Include="windowbase.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
@@ -284,6 +284,7 @@
     <ClCompile Include="Quaternion.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="RenderStates.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -301,9 +302,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Vector4.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Vertex.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="windowbase.cpp" />

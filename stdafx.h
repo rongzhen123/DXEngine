@@ -106,8 +106,6 @@ struct Toast//窗口提示消息
 	ToastLevel	Level;//消息级别
 };
 
-
-
 enum MSG_USER
 {
 	MSG_USER_MSG_BOX = (WM_USER + 101),

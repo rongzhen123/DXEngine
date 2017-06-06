@@ -72,9 +72,6 @@
     <ClInclude Include="RenderStates.h">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
     <ClInclude Include="DXEngine.h">
       <Filter>源文件</Filter>
     </ClInclude>
@@ -138,6 +135,9 @@
     <ClInclude Include="Sphere.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Renderable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -180,9 +180,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="RenderStates.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Vertex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DXEngine.cpp">
@@ -229,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="Plane.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderable.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -80,15 +80,131 @@ BasicEffect::~BasicEffect()
 
 #pragma region Effects
 
-BasicEffect* Effects::BasicFX = 0;
+ ID3D11InputLayout* Effects::mInputLayout_PosColor = 0;
+ ID3D11InputLayout* Effects::mInputLayout_PosTex = 0;
+ ID3DX11Effect* Effects::mEffectPosColor = 0;
+ ID3DX11EffectTechnique* Effects::mEffectTechPosColor = 0;
+ ID3DX11Effect* Effects::mEffectPosTex = 0;
+ ID3DX11EffectTechnique* Effects::mEffectTechPosTex = 0;
+ ID3DX11EffectMatrixVariable* Effects::mEffectWorldViewProj_PosTex = 0;
+ ID3DX11EffectMatrixVariable* Effects::mEffectWorldViewProj_PosColor = 0;
+ ID3DX11EffectShaderResourceVariable* Effects::mDiffuseMap_PosTex = 0;
 
-void Effects::InitAll(ID3D11Device* device)
+ ID3D11RasterizerState* Effects::mRS = 0;
+ ID3D11BlendState* Effects::mBS = 0;
+
+bool Effects::InitAll(ID3D11Device* device)
 {
-	BasicFX = new BasicEffect(device, L"FX/Basic.fxo");
+	//BasicFX = new BasicEffect(device, L"FX/Basic.fxo");
+	DWORD shaderFlags = 0;
+#if defined( DEBUG ) || defined( _DEBUG )
+	shaderFlags |= D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+
+	ID3D10Blob* compiledShader = 0;
+	ID3D10Blob* compilationMsgs = 0;
+	HRESULT hr;
+	hr = D3DX11CompileFromFile(L"FX/effect_pos_color.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, 0, &compiledShader, &compilationMsgs, 0);
+	// compilationMsgs can store errors or warnings.
+	if (compilationMsgs != 0)
+	{
+		MessageBoxA(0, (char*)compilationMsgs->GetBufferPointer(), 0, 0);
+		ReleaseCOM(compilationMsgs);
+	}
+	// Even if there are no compilationMsgs, check to make sure there were no other errors.
+	if (FAILED(hr))
+	{
+		DXTrace(__FILE__, (DWORD)__LINE__, hr, L"D3DX11CompileFromFile", true);
+	}
+	hr = D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(), compiledShader->GetBufferSize(), 0, device, &mEffectPosColor);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+	// Done with compiled shader.
+	ReleaseCOM(compiledShader);
+	mEffectTechPosColor = mEffectPosColor->GetTechniqueByName("PosColorTech");
+	mEffectWorldViewProj_PosColor = mEffectPosColor->GetVariableByName("gWorldViewProj")->AsMatrix();
+	//StaticMesh_DiffuseMap = mEffectPosColor->GetVariableByName("gDiffuseMap")->AsShaderResource();
+	D3DX11_PASS_DESC passDesc;
+	mEffectTechPosColor->GetPassByIndex(0)->GetDesc(&passDesc);
+	hr = device->CreateInputLayout(PosColor, 2, passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &mInputLayout_PosColor);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	hr = D3DX11CompileFromFile(L"FX/effect_pos_tex.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, 0, &compiledShader, &compilationMsgs, 0);
+	// compilationMsgs can store errors or warnings.
+	if (compilationMsgs != 0)
+	{
+		MessageBoxA(0, (char*)compilationMsgs->GetBufferPointer(), 0, 0);
+		ReleaseCOM(compilationMsgs);
+	}
+	// Even if there are no compilationMsgs, check to make sure there were no other errors.
+	if (FAILED(hr))
+	{
+		DXTrace(__FILE__, (DWORD)__LINE__, hr, L"D3DX11CompileFromFile", true);
+	}
+	hr = D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(), compiledShader->GetBufferSize(), 0, device, &mEffectPosTex);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+	// Done with compiled shader.
+	ReleaseCOM(compiledShader);
+	mEffectTechPosTex = mEffectPosTex->GetTechniqueByName("PosTexTech");
+	mEffectWorldViewProj_PosTex = mEffectPosTex->GetVariableByName("gWorldViewProj")->AsMatrix();
+	mDiffuseMap_PosTex = mEffectPosTex->GetVariableByName("gDiffuseMap")->AsShaderResource();
+	//D3DX11_PASS_DESC passDesc;
+	mEffectTechPosTex->GetPassByIndex(0)->GetDesc(&passDesc);
+	hr = device->CreateInputLayout(PosTex, 2, passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &mInputLayout_PosTex);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	D3D11_RASTERIZER_DESC rasterDesc;
+	ZeroMemory(&rasterDesc, sizeof(D3D11_RASTERIZER_DESC));
+	rasterDesc.FillMode = D3D11_FILL_SOLID;
+	rasterDesc.CullMode = D3D11_CULL_FRONT;
+	rasterDesc.FrontCounterClockwise = false;
+	rasterDesc.DepthClipEnable = true;
+
+	hr = device->CreateRasterizerState(&rasterDesc, &mRS);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	D3D11_BLEND_DESC blendDesc = { 0 };
+	blendDesc.AlphaToCoverageEnable = true;
+	blendDesc.IndependentBlendEnable = false;
+	blendDesc.RenderTarget[0].BlendEnable = false;
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	hr = device->CreateBlendState(&blendDesc, &mBS);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+	//primitive_type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	return true;
 }
 
 void Effects::DestroyAll()
 {
-	SafeDelete(BasicFX);
+	/*SafeDelete(mInputLayout_PosColor);
+	SafeDelete(mInputLayout_PosTex);
+	SafeDelete(mEffectPosColor);
+	SafeDelete(mEffectTechPosColor);
+	SafeDelete(mEffectWorldViewProj_PosColor);
+	SafeDelete(mEffectPosTex);
+	SafeDelete(mEffectTechPosTex);
+	SafeDelete(mEffectWorldViewProj_PosTex);
+
+	SafeDelete(mDiffuseMap_PosTex);
+	SafeDelete(mRS);
+	SafeDelete(mBS);*/
 }
 #pragma endregion

@@ -7,6 +7,7 @@ EditBox::EditBox()
 	text_color(RGB(0,0,0)),
 	text_font_size(20), 
 	text_align_type(Align_LEFT),
+	ref_pos(50),
 	ControlBase()
 {
 	type = Edit_Box;
@@ -18,6 +19,7 @@ EditBox::EditBox(CString & t)
 	text_color(RGB(0, 0, 0)),
 	text_font_size(20),
 	text_align_type(Align_LEFT),
+	ref_pos(50),
 	ControlBase()
 {
 	type = Edit_Box;
@@ -30,6 +32,7 @@ EditBox::EditBox(const wchar_t * t)
 	text_font_size(20),
 	text_align_type(Align_LEFT),
 	content_type(Content_Type_Digit_Int),
+	ref_pos(50),
 	ControlBase()
 {
 	type = Edit_Box;
@@ -37,7 +40,7 @@ EditBox::EditBox(const wchar_t * t)
 
 void EditBox::Create()
 {
-	hwnd = CreateWindow(L"edit", L"", WS_VISIBLE | WS_CHILD | WS_BORDER /*| WS_VSCROLL*/ | ES_LEFT | DT_VCENTER, x+50, y, width, height, parent_hwnd, NULL, NULL, NULL);
+	hwnd = CreateWindow(L"edit", L"", WS_VISIBLE | WS_CHILD | WS_BORDER /*| WS_VSCROLL*/ | ES_LEFT | DT_VCENTER, x+ ref_pos, y, width, height, parent_hwnd, NULL, NULL, NULL);
 	if (!hwnd)
 	{
 		CString tip;

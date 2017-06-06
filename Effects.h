@@ -9,7 +9,7 @@
 #define EFFECTS_H
 
 #include "d3dUtil.h"
-
+#include "D3DCompiler.h"
 #pragma region Effect
 class Effect
 {
@@ -27,6 +27,24 @@ protected:
 #pragma endregion
 
 #pragma region BasicEffect
+const D3D11_INPUT_ELEMENT_DESC PosTex[2] =
+{
+	{ "POSITION",     0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	//	{"NORMAL",       0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{ "TEXCOORD",     0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	//	{"TANGENT",      0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//	{"WEIGHTS",      0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//	{"BONEINDICES",  0, DXGI_FORMAT_R8G8B8A8_UINT,   0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0}
+};
+const D3D11_INPUT_ELEMENT_DESC PosColor[2] =
+{
+	{ "POSITION",     0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	//	{"NORMAL",       0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	{ "COLOR",		  0, DXGI_FORMAT_R32G32B32A32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	//	{"TANGENT",      0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//	{"WEIGHTS",      0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	//	{"BONEINDICES",  0, DXGI_FORMAT_R8G8B8A8_UINT,   0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0}
+};
 class BasicEffect : public Effect
 {
 public:
@@ -92,10 +110,22 @@ public:
 class Effects
 {
 public:
-	static void InitAll(ID3D11Device* device);
+	static bool InitAll(ID3D11Device* device);
 	static void DestroyAll();
 
-	static BasicEffect* BasicFX;
+	//static BasicEffect* BasicFX;
+	static ID3D11InputLayout* mInputLayout_PosColor;
+	static ID3D11InputLayout* mInputLayout_PosTex;
+	static ID3DX11Effect* mEffectPosColor;
+	static ID3DX11EffectTechnique* mEffectTechPosColor;
+	static ID3DX11EffectMatrixVariable* mEffectWorldViewProj_PosColor;
+	static ID3DX11Effect* mEffectPosTex;
+	static ID3DX11EffectTechnique* mEffectTechPosTex;
+	static ID3DX11EffectMatrixVariable* mEffectWorldViewProj_PosTex;
+	static ID3DX11EffectShaderResourceVariable* mDiffuseMap_PosTex;
+
+	static ID3D11RasterizerState* mRS;
+	static ID3D11BlendState* mBS;
 };
 #pragma endregion
 

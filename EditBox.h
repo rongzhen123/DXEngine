@@ -15,6 +15,7 @@ public:
 	Content_Type content_type;
 	int target_var;//该编辑框对应的目标变量
 	//int* target_value;
+	int ref_pos;
 	EditBox();
 	EditBox(CString& t);
 	EditBox(const wchar_t* t);
