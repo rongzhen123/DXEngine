@@ -21,6 +21,7 @@ public:
 	//ControlBase* parent;
 	CString title;
 	COLORREF color;//ÑÕÉ«
+
 	void* userdata;
 	vector<ControlBase*> child_controls;//×Ó¿Ø¼þ
 	virtual void OnDraw(HDC dc);

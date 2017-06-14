@@ -55,7 +55,7 @@ void NormalWindow::OnCtrlEditUpdate(HWND ctrl_hwnd)
 					//输入框只接受数字，其他的字符不接受
 					for (int nIndex = 0; nIndex < string_length; nIndex++)
 					{
-						if (content[nIndex] > '9' || content[nIndex] < '0')
+						if ((content[nIndex] > '9' || content[nIndex] < '0') && content[nIndex] != '-')
 						{
 							CString tmp = content.Left(nIndex) + content.Right(content.GetLength() - nIndex - 1);
 							SetWindowText(ctrl_hwnd, tmp);

@@ -13,6 +13,7 @@ public:
 	int text_font_size;
 	Edit_Text_Align_Type text_align_type;
 	Content_Type content_type;
+	bool ReadOnly;
 	int target_var;//该编辑框对应的目标变量
 	//int* target_value;
 	int ref_pos;

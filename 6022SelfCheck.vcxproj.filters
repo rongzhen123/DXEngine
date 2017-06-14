@@ -16,6 +16,9 @@
     <Filter Include="Common">
       <UniqueIdentifier>{13c0df9a-0ff0-4985-a14e-6b5787af6224}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FX">
+      <UniqueIdentifier>{1a97501a-08a5-48d6-81b7-6a1aefe1f19e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -138,6 +141,36 @@
     <ClInclude Include="Renderable.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="OctreeSceneManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="NameGenerator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneNode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ogldev_math_3d.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinnedMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ManualMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -230,6 +263,39 @@
     <ClCompile Include="Renderable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="OctreeSceneManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OctreeSceneNode.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneNode.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinnedMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="math_3d.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ManualMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="6022SelfCheck.rc">
@@ -251,5 +317,19 @@
     <Library Include="Common\Effects11d.lib">
       <Filter>Common</Filter>
     </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FX\effect_pos_color.fx">
+      <Filter>FX</Filter>
+    </None>
+    <None Include="FX\effect_pos_tex.fx">
+      <Filter>FX</Filter>
+    </None>
+    <None Include="FX\effect_pos_tex_color.fx">
+      <Filter>FX</Filter>
+    </None>
+    <None Include="FX\effect_pos_tex_vertical_blur.fx">
+      <Filter>FX</Filter>
+    </None>
   </ItemGroup>
 </Project>

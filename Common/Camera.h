@@ -12,7 +12,7 @@
 #define CAMERA_H
 
 #include "d3dUtil.h"
-
+//#include "..\SceneManager.h"
 class Camera
 {
 public:
@@ -88,6 +88,9 @@ private:
 	// Cache View/Proj matrices.
 	XMFLOAT4X4 mView;
 	XMFLOAT4X4 mProj;
+
+	/// Scene manager responsible for the scene
+	//SceneManager *mSceneMgr;
 };
 
 #endif // CAMERA_H

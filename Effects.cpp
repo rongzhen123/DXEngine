@@ -80,19 +80,28 @@ BasicEffect::~BasicEffect()
 
 #pragma region Effects
 
- ID3D11InputLayout* Effects::mInputLayout_PosColor = 0;
- ID3D11InputLayout* Effects::mInputLayout_PosTex = 0;
- ID3DX11Effect* Effects::mEffectPosColor = 0;
- ID3DX11EffectTechnique* Effects::mEffectTechPosColor = 0;
- ID3DX11Effect* Effects::mEffectPosTex = 0;
- ID3DX11EffectTechnique* Effects::mEffectTechPosTex = 0;
- ID3DX11EffectMatrixVariable* Effects::mEffectWorldViewProj_PosTex = 0;
- ID3DX11EffectMatrixVariable* Effects::mEffectWorldViewProj_PosColor = 0;
- ID3DX11EffectShaderResourceVariable* Effects::mDiffuseMap_PosTex = 0;
+ ID3D11InputLayout*						Effects::mInputLayout_PosColor = 0;
+ ID3D11InputLayout*						Effects::mInputLayout_PosTex = 0;
+ ID3D11InputLayout*						Effects::mInputLayout_PosTexColor = 0;
 
- ID3D11RasterizerState* Effects::mRS = 0;
- ID3D11BlendState* Effects::mBS = 0;
+ ID3DX11Effect*							Effects::mEffectPosColor = 0;
+ ID3DX11EffectTechnique*				Effects::mEffectTechPosColor = 0;
+ ID3DX11Effect*							Effects::mEffectPosTex = 0;
+ ID3DX11EffectTechnique*				Effects::mEffectTechPosTex = 0;
+ ID3DX11EffectMatrixVariable*			Effects::mEffectWorldViewProj_PosTex = 0;
+ ID3DX11EffectMatrixVariable*			Effects::mEffectWorldViewProj_PosColor = 0;
+ ID3DX11EffectShaderResourceVariable*	Effects::mDiffuseMap_PosTex = 0;
 
+ ID3DX11Effect*							Effects::mEffectPosTexColor = 0;
+ ID3DX11EffectTechnique*				Effects::mEffectTechPosTexColor = 0;
+
+ ID3DX11EffectMatrixVariable*			Effects::mEffectWorldViewProj_PosTexColor = 0;
+ ID3DX11EffectShaderResourceVariable*	Effects::mDiffuseMap_PosTexColor = 0;
+
+
+ ID3D11RasterizerState*					Effects::mRS = 0;
+ ID3D11BlendState*						Effects::mBS = 0;
+ ID3D11BlendState*						Effects::TransparentBS = 0;
 bool Effects::InitAll(ID3D11Device* device)
 {
 	//BasicFX = new BasicEffect(device, L"FX/Basic.fxo");
@@ -164,11 +173,41 @@ bool Effects::InitAll(ID3D11Device* device)
 		return false;
 	}
 
+	hr = D3DX11CompileFromFile(L"FX/effect_pos_tex_color.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, 0, &compiledShader, &compilationMsgs, 0);
+	// compilationMsgs can store errors or warnings.
+	if (compilationMsgs != 0)
+	{
+		MessageBoxA(0, (char*)compilationMsgs->GetBufferPointer(), 0, 0);
+		ReleaseCOM(compilationMsgs);
+	}
+	// Even if there are no compilationMsgs, check to make sure there were no other errors.
+	if (FAILED(hr))
+	{
+		DXTrace(__FILE__, (DWORD)__LINE__, hr, L"D3DX11CompileFromFile", true);
+	}
+	hr = D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(), compiledShader->GetBufferSize(), 0, device, &mEffectPosTexColor);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+	// Done with compiled shader.
+	ReleaseCOM(compiledShader);
+	mEffectTechPosTexColor = mEffectPosTexColor->GetTechniqueByName("PosTexColorTech");
+	mEffectWorldViewProj_PosTexColor = mEffectPosTexColor->GetVariableByName("gWorldViewProj")->AsMatrix();
+	mDiffuseMap_PosTexColor = mEffectPosTexColor->GetVariableByName("gDiffuseMap")->AsShaderResource();
+	//D3DX11_PASS_DESC passDesc;
+	mEffectTechPosTexColor->GetPassByIndex(0)->GetDesc(&passDesc);
+	hr = device->CreateInputLayout(PosTexColor, 3, passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &mInputLayout_PosTexColor);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
 	D3D11_RASTERIZER_DESC rasterDesc;
 	ZeroMemory(&rasterDesc, sizeof(D3D11_RASTERIZER_DESC));
 	rasterDesc.FillMode = D3D11_FILL_SOLID;
-	rasterDesc.CullMode = D3D11_CULL_FRONT;
-	rasterDesc.FrontCounterClockwise = false;
+	rasterDesc.CullMode = D3D11_CULL_NONE;
+	rasterDesc.FrontCounterClockwise = true;
 	rasterDesc.DepthClipEnable = true;
 
 	hr = device->CreateRasterizerState(&rasterDesc, &mRS);
@@ -188,6 +227,26 @@ bool Effects::InitAll(ID3D11Device* device)
 	{
 		return false;
 	}
+
+	D3D11_BLEND_DESC transparentDesc = { 0 };
+	transparentDesc.AlphaToCoverageEnable = false;
+	transparentDesc.IndependentBlendEnable = false;
+
+	transparentDesc.RenderTarget[0].BlendEnable = true;
+	transparentDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_COLOR;
+	transparentDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_COLOR;
+	transparentDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	transparentDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	transparentDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	transparentDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	transparentDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	hr = device->CreateBlendState(&transparentDesc, &TransparentBS);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
 	//primitive_type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	return true;
 }

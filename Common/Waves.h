@@ -9,8 +9,8 @@
 #ifndef WAVES_H
 #define WAVES_H
 
-#include <Windows.h>
-//#include <afxwin.h>    
+//#include <Windows.h>
+#include <afxwin.h>    
 #include <xnamath.h>
 
 class Waves

@@ -37,6 +37,10 @@ using namespace Gdiplus;
 #include <map>
 #include <vector>
 #include <list>
+#include <set>
+#include <string>
+#include <sstream>
+#include <algorithm>
 #define OFFSET_X 5	//画圆角矩形是圆角的X方向半径
 #define OFFSET_Y 5
 
@@ -51,10 +55,22 @@ using namespace Gdiplus;
 #define EVENT_MOUSEMOVE 3
 #define EVENT_MOUSEOUT_UP 4 //鼠标松开
 typedef float Real;
+
+
+
+typedef unsigned int uint32;
+typedef unsigned short uint16;
+typedef unsigned char uint8;
+typedef int int32;
+typedef short int16;
+typedef signed char int8;
+typedef unsigned __int64 uint64;
+typedef __int64 int64;
+
 enum  control_type
 {
 	Title,//静态文本，不自动换行
-	String,//多行文本，可以自动换行
+	MultiString,//多行文本，可以自动换行
 	Button,
 	Single_Grid,//单选表格
 	Multi_Grid,//多选表格
@@ -116,6 +132,30 @@ enum MSG_USER
 	MSG_USER_INVALIDATE_VIEW
 };
 
+struct ManualMeshParameter
+{
+	float position_x, position_y, position_z;
+	float scale_x, scale_y, scale_z;
+	float rotation_x, rotation_y, rotation_z;
+	uint16 color_r, color_g, color_b, color_a;
+	std::wstring texture_filename;
+	ManualMeshParameter()
+	{
+		position_x = position_y = position_z = 0;
+		scale_x = scale_y = scale_z = 1;
+		rotation_x = rotation_y = rotation_z = 1;
+		texture_filename = L"";
+		color_r = color_g = color_b = color_a = 0;
+	}
+	void Reset()
+	{
+		position_x = position_y = position_z = 0;
+		scale_x = scale_y = scale_z = 1;
+		rotation_x = rotation_y = rotation_z = 1;
+		texture_filename = L"";
+		color_r = color_g = color_b = color_a = 0;
+	}
+};
 #define MAX_REC_SIZE		512
 
 #define NUMVIEWS			40

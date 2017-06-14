@@ -52,7 +52,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v100</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
@@ -91,8 +91,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>F:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;E:\Reference\code\DX\Introduction to 3D Game Programming with DirectX 11\d3d11CodeSet1\Common;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;E:\Reference\code\DX\Introduction to 3D Game Programming with DirectX 11\d3d11CodeSet1\Common;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;E:\Reference\code\DX\Introduction to 3D Game Programming with DirectX 11\d3d11CodeSet1\Common;.\assimp-master\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;E:\Reference\code\DX\Introduction to 3D Game Programming with DirectX 11\d3d11CodeSet1\Common;.\assimp-master\output\code\Debug;$(LibraryPath)</LibraryPath>
     <ExecutablePath>F:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Utilities\bin\x86;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -119,7 +119,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dx11d.lib;D3DCompiler.lib;Effects11d.lib;dxerr.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc140-mt.lib;d3d11.lib;d3dx11d.lib;D3DCompiler.lib;Effects11d.lib;dxerr.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmtd.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -197,11 +197,17 @@
     <ClInclude Include="DXEngine.h" />
     <ClInclude Include="EditBox.h" />
     <ClInclude Include="Effects.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="ManualMesh.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Matrix3.h" />
     <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="NameGenerator.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NormalWindow.h" />
+    <ClInclude Include="OctreeSceneManager.h" />
+    <ClInclude Include="ogldev_math_3d.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="PlaneBoundedVolume.h" />
     <ClInclude Include="Quaternion.h" />
@@ -209,8 +215,12 @@
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="RenderStates.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneNode.h" />
     <ClInclude Include="ShareDefine.h" />
+    <ClInclude Include="SkinnedMesh.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextControl.h" />
@@ -266,28 +276,53 @@
     <ClCompile Include="EditBox.cpp" />
     <ClCompile Include="Effects.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="ManualMesh.cpp" />
     <ClCompile Include="Math.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="math_3d.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Matrix3.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Matrix4.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MyUtility.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="NormalWindow.cpp" />
+    <ClCompile Include="OctreeSceneManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="OctreeSceneNode.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Plane.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Quaternion.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Renderable.cpp" />
+    <ClCompile Include="Renderable.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="RenderStates.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneNode.cpp" />
+    <ClCompile Include="SkinnedMesh.cpp" />
+    <ClCompile Include="StaticMesh.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -297,12 +332,15 @@
     <ClCompile Include="TextControl.cpp" />
     <ClCompile Include="Vector2.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Vector4.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="windowbase.cpp" />
     <ClCompile Include="WindowManager.cpp" />
@@ -317,6 +355,12 @@
   <ItemGroup>
     <Library Include="Common\Effects11.lib" />
     <Library Include="Common\Effects11d.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FX\effect_pos_color.fx" />
+    <None Include="FX\effect_pos_tex.fx" />
+    <None Include="FX\effect_pos_tex_color.fx" />
+    <None Include="FX\effect_pos_tex_vertical_blur.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

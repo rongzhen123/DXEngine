@@ -33,6 +33,7 @@
 #include "WindowManager.h"
 #include "NormalWindow.h"
 #include "Renderable.h"
+#include "SceneManager.h"
 using namespace std;
 
 enum RenderOptions
@@ -50,6 +51,14 @@ public:
 	DXEngineApp(HINSTANCE hInstance);
 	~DXEngineApp();
 
+	SceneManager* mSceneMgr;
+	static int m_NumberPlaneCreated;
+	static int m_NumberBoxCreated;
+	static int m_NumberSphereCreated;
+	static int m_NumberCylinderCreated;
+	static int m_NumberStaticMeshCreated;
+	static int m_NumberSkinnedMeshCreated;
+	static int m_NumberNodeCreated;
 	HANDLE m_MenuThread;//具体检测的线程
 	HWND m_MenuHwnd;
 	bool Init();
@@ -57,7 +66,7 @@ public:
 	void OnResize();
 	void UpdateScene(float dt);
 	void DrawScene();
-	
+	void DrawBackground();
 	void OnMouseDown(WPARAM btnState, int x, int y);
 	void OnMouseUp(WPARAM btnState, int x, int y);
 	void OnMouseMove(WPARAM btnState, int x, int y);
@@ -65,18 +74,20 @@ public:
 	//创建几何体相关参数
 	int position_x, position_y, position_z;
 	float scale_x, scale_y, scale_z;
-
+	float rotation_x, rotation_y, rotation_z;
+//	float scale_x, scale_y, scale_z;
 	int plane_width, plane_depth, m, n;
 	int box_width, box_height, box_depth;
 	int sphere_radius, sphere_slice_count, sphere_stack_count;
 	int cylinder_top_radius, cylinder_bottom_radius, cylinder_slice_count, cylinder_stack_count;
-
-	void SetupPlane(int width,int depth,int m,int n);
+	int color_r, color_g, color_b,color_a;
+	CString texture_filename;
+	void SetupPlane(int width,int depth,int m,int n,float posx,float posy,float posz,float scalex,float scaley,float scalez);
 	void SetupBox(int width,int height,int depth);
 	void SetupSphere(int radius,int slicecount,int stackcount);
 	void SetupCylinder(int topradius,int bottomradius,int slicecount,int stackcount);
 	float GetHillHeight(float x, float z)const;
-	vector<Renderable*> mRenderQueue;
+	//vector<Renderable*> mRenderQueue;
 	static DWORD WINAPI MenuThread(LPVOID lParam);//线程函数;
 
 private:

@@ -38,7 +38,7 @@ VertexOut VS(VertexIn vin)
 float4 PS(VertexOut pin) : SV_Target
 {
 	float4 Color;
-Color = float4(1.0,0.0,0.0,1.0);// pin.Color;//gDiffuseMap.Sample(samLinear, pin.Tex);
+	Color =  pin.Color;//gDiffuseMap.Sample(samLinear, pin.Tex);
 	return Color;
 }
 

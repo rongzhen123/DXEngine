@@ -24,6 +24,7 @@ public:
 	int width;//宽度
 	int height;//高度
 	COLORREF color;//颜色，colorbutton有用到
+	COLORREF text_color;
 	CString owner;//用来区分该控件是哪一项功能的设置项，比如fft,passfail等
 	control_type type;
 	//int title_id;//add 2016/7/9，该控件的title对应在语言文件中的ID
@@ -78,7 +79,6 @@ public:
 	{
 		return 0;
 	}
-
 };
 
 #endif

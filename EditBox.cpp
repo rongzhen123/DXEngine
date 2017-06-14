@@ -8,6 +8,7 @@ EditBox::EditBox()
 	text_font_size(20), 
 	text_align_type(Align_LEFT),
 	ref_pos(50),
+	ReadOnly(false),
 	ControlBase()
 {
 	type = Edit_Box;
@@ -20,6 +21,7 @@ EditBox::EditBox(CString & t)
 	text_font_size(20),
 	text_align_type(Align_LEFT),
 	ref_pos(50),
+	ReadOnly(false),
 	ControlBase()
 {
 	type = Edit_Box;
@@ -33,6 +35,7 @@ EditBox::EditBox(const wchar_t * t)
 	text_align_type(Align_LEFT),
 	content_type(Content_Type_Digit_Int),
 	ref_pos(50),
+	ReadOnly(false),
 	ControlBase()
 {
 	type = Edit_Box;
@@ -58,6 +61,10 @@ void EditBox::Create()
 	}
 	
 	UpdateWindow(hwnd);
+	if (ReadOnly)
+	{
+		::PostMessageW(hwnd, EM_SETREADONLY, 1, 0);
+	}
 	type = Edit_Box;
 	//´´½¨Âß¼­×ÖÌå
 	/*HFONT hFont = CreateFont(20, 20, 0, 0, 400 ,

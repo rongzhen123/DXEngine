@@ -6,6 +6,7 @@ ColorButton::ColorButton()
 	:ControlBase()
 {
 	color = RGB(255,0,0);
+	text_color = RGB(255,255,255);
 }
 
 int ColorButton::draw(HDC hdc)
@@ -15,7 +16,7 @@ int ColorButton::draw(HDC hdc)
 		Graphics g(hdc);
 		StringFormat stringformat;
 
-		SolidBrush brush(Color(255, 255, 255, 255));
+		SolidBrush brush(Color(255, GetRValue(text_color), GetGValue(text_color), GetBValue(text_color)));
 		g.SetTextRenderingHint(TextRenderingHintClearTypeGridFit);
 		FontFamily fontFamily(L"ËÎÌו");
 		if (this->if_follow_scrool == TRUE)
@@ -68,7 +69,9 @@ int ColorButton::event(int eventtype, int x, int y)
 		{
 			if (x >= this->x + 5 && x <= this->x + this->width && y >= this->y + scrool_pos && y <= this->y + this->height + scrool_pos)
 			{
-				AfxMessageBox(L"ColorButton up");
+				//AfxMessageBox(L"ColorButton up");
+				HWND target = (HWND)userdata;
+				this->event_func((int)target);
 				return 1;
 			}
 		}
@@ -189,7 +192,10 @@ int CreatePlane::event(int eventtype, int x, int y)
 		{
 			if (x >= this->x + 5 && x <= this->x + this->width && y >= this->y + scrool_pos && y <= this->y + this->height + scrool_pos)
 			{	
-				app->SetupPlane(app->plane_width,app->plane_depth,app->m,app->n);
+				if (app->plane_width > 0 && app->plane_depth > 0 && app->m > 0 && app->n > 0)
+				{
+					app->SetupPlane(app->plane_width, app->plane_depth, app->m, app->n,app->position_x,app->position_y,app->position_z,app->scale_x,app->scale_y,app->scale_z);
+				}
 				return 1;
 			}
 		}

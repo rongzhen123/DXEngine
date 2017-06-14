@@ -6,8 +6,7 @@
 
 #ifndef MATHHELPER_H
 #define MATHHELPER_H
-
-#include <Windows.h>
+#include "windows.h"
 //#include <afxwin.h>    
 #include <xnamath.h>
 
